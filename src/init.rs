@@ -61,6 +61,13 @@ fn dynamic_allocating_test() {
     assert!(heap_value_addr >= lbss && heap_value_addr < rbss);
     println!("heap_value is in section .bss!");
 
+    let heap_value_2 = Box::new(6);
+    println!("heap_value_2 is at {:p}", heap_value_2);
+    let heap_value_3 = Box::new(87);
+    println!("heap_value_3 is at {:p}", heap_value_3);
+    let heap_value_4 = Box::new(-35);
+    println!("heap_value_4 is at {:p}", heap_value_4);
+
     let mut vec = Vec::new();
     for i in 0..500 {
         // println!("pushing vec at {}", i);
@@ -71,6 +78,7 @@ fn dynamic_allocating_test() {
     }
     println!("vec assertion successfully!");
     println!("vec is at {:p}", vec.as_slice());
+    println!("vec meta is at 0x{:x}", &vec as *const _ as usize);
     let vec_addr = vec.as_ptr() as usize;
     assert!(vec_addr >= lbss && vec_addr < rbss);
     println!("vec is in section .bss!");
