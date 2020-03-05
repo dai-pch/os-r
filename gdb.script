@@ -1,0 +1,4 @@
+#filename:.gdbinit
+target remote :1234
+x /10i 0x80200000
+

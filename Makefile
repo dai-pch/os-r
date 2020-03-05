@@ -17,10 +17,13 @@ kernel:
 	cargo build
 
 $(bin): kernel
-	$(objcopy) $(kernel) --strip-all $@ # -O binary
+	$(objcopy) $(kernel) --strip-all -O binary $@
 
 asm:
 	$(objdump) -d $(kernel) | less
+
+header:
+	$(objdump) -h $(kernel) | less
 
 build: $(bin)
 
@@ -47,5 +50,5 @@ run: build qemu
 debug: build qemu-debug
 
 gdb:
-	riscv64-unknown-elf-gdb $(bin)
+	riscv64-unknown-elf-gdb $(kernel) -command=gdb.script
 
