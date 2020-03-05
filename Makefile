@@ -27,12 +27,25 @@ build: $(bin)
 clean:
 	cargo clean
 
-qemu:
+qemu: build
 	qemu-system-riscv64 \
 		-machine virt \
 		-nographic \
 		-bios default \
 		-device loader,file=$(bin),addr=0x80200000
 
+qemu-debug: build
+	qemu-system-riscv64 \
+		-machine virt \
+		-nographic \
+		-bios default \
+		-device loader,file=$(bin),addr=0x80200000 \
+		-s -S
+
 run: build qemu
+
+debug: build qemu-debug
+
+gdb:
+	riscv64-unknown-elf-gdb $(bin)
 
